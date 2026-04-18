@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|c:\\users\\walker\\desktop\\unitypractice\\create with code\\silo\\assets\\scripts\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\simulationmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\simulationmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|c:\\users\\walker\\desktop\\unitypractice\\create with code\\silo\\assets\\scripts\\gametime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gametime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|c:\\users\\walker\\desktop\\unitypractice\\create with code\\silo\\assets\\scripts\\wandersystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\wandersystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|c:\\users\\walker\\desktop\\unitypractice\\create with code\\silo\\assets\\scripts\\workerview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\workerview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\agentrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\agentrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\noderegistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\noderegistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\floor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\floor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,20 +35,64 @@
       "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\nodepathfinder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\noderegistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\noderegistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\workerbrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\scripts\\workerbrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\worldstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\worldstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\scripts\\worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\csvloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\csvloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\iworldsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\iworldsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\trafficsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\trafficsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\jobsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jobsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\needsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\needsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\taskrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\taskrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\jobdefinition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jobdefinition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\floorvisibilitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\floorvisibilitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\floorslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\floorslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\towernavigation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\towernavigation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\floor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\floor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\towergenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\towergenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\floorslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\floorslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\assets\\scripts\\gametime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E8C5DEB-315C-EC8B-CF18-39293C60D24B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gametime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,33 +102,214 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "WanderSystem.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\WanderSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\WanderSystem.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\WanderSystem.cs",
+              "RelativeToolTip": "Assets\\Scripts\\WanderSystem.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAmwEUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T11:37:19.903Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "JobSystem.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\JobSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\JobSystem.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\JobSystem.cs",
+              "RelativeToolTip": "Assets\\Scripts\\JobSystem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:25:05.236Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TrafficSystem.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\TrafficSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\TrafficSystem.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\TrafficSystem.cs",
+              "RelativeToolTip": "Assets\\Scripts\\TrafficSystem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:24:39.662Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "NeedSystem.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\NeedSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\NeedSystem.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\NeedSystem.cs",
+              "RelativeToolTip": "Assets\\Scripts\\NeedSystem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:23:52.479Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "IWorldSystem.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\IWorldSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\IWorldSystem.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\IWorldSystem.cs",
+              "RelativeToolTip": "Assets\\Scripts\\IWorldSystem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:23:31.311Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WorkerView.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\WorkerView.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\WorkerView.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\WorkerView.cs",
+              "RelativeToolTip": "Assets\\Scripts\\WorkerView.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAcwDUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:23:02.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CsvLoader.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\CsvLoader.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CsvLoader.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\CsvLoader.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CsvLoader.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAwwIMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:22:26.408Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "TaskRecord.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\TaskRecord.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\TaskRecord.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\TaskRecord.cs",
+              "RelativeToolTip": "Assets\\Scripts\\TaskRecord.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:22:01.08Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AgentRecord.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\AgentRecord.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AgentRecord.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\AgentRecord.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AgentRecord.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:21:36.366Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "JobDefinition.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\JobDefinition.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\JobDefinition.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\JobDefinition.cs",
+              "RelativeToolTip": "Assets\\Scripts\\JobDefinition.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wBQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:21:11.645Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "WorldState.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\WorldState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\WorldState.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\WorldState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\WorldState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:20:41.357Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SimulationManager.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\SimulationManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SimulationManager.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\SimulationManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SimulationManager.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAA1wGAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:20:29.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "WorkerBrain.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\WorkerBrain.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\WorkerBrain.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\WorkerBrain.cs",
+              "RelativeToolTip": "Assets\\Scripts\\WorkerBrain.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAowBYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T10:12:47.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "TowerGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\TowerGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\TowerGenerator.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\TowerGenerator.cs",
+              "RelativeToolTip": "Assets\\Scripts\\TowerGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T14:56:56.644Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "FloorVisibilityController.cs",
+              "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\FloorVisibilityController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\FloorVisibilityController.cs",
+              "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\FloorVisibilityController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\FloorVisibilityController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAmwDMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T14:41:56.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
               "Title": "GameTime.cs",
               "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\GameTime.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameTime.cs",
               "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\GameTime.cs",
               "RelativeToolTip": "Assets\\Scripts\\GameTime.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAmwCoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-08T13:05:10.469Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-08T13:05:10.469Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "NodePathfinder.cs",
               "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\NodePathfinder.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\NodePathfinder.cs",
               "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\NodePathfinder.cs",
               "RelativeToolTip": "Assets\\Scripts\\NodePathfinder.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAmwC4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-08T12:37:23.033Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-08T12:37:23.033Z"
             },
             {
               "$type": "Document",
@@ -78,69 +319,67 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\NodeRegistry.cs",
               "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\NodeRegistry.cs",
               "RelativeToolTip": "Assets\\Scripts\\NodeRegistry.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAAuwDgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-08T12:35:30.898Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 20,
               "Title": "TowerNavigation.cs",
               "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\TowerNavigation.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\TowerNavigation.cs",
               "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\TowerNavigation.cs",
               "RelativeToolTip": "Assets\\Scripts\\TowerNavigation.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAmwCQAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-08T12:15:29.892Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 10,
               "Title": "Worker.cs",
               "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\Worker.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Worker.cs",
               "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\Worker.cs",
               "RelativeToolTip": "Assets\\Scripts\\Worker.cs",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAIwIwAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAWwN4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-08T11:55:48.131Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-08T11:55:48.131Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Node.cs",
               "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\Node.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Node.cs",
               "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\Node.cs",
               "RelativeToolTip": "Assets\\Scripts\\Node.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAIwDQAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAACYAAAAAAAAAAAAwwEgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-08T11:54:23.749Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-08T11:54:23.749Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "Floor.cs",
               "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\Floor.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Floor.cs",
               "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\Floor.cs",
               "RelativeToolTip": "Assets\\Scripts\\Floor.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAIwC4AAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwE4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-08T11:15:12.655Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 19,
               "Title": "FloorSlot.cs",
               "DocumentMoniker": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\FloorSlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\FloorSlot.cs",
               "ToolTip": "C:\\Users\\Walker\\Desktop\\UnityPractice\\Create with Code\\Silo\\Assets\\Scripts\\FloorSlot.cs",
               "RelativeToolTip": "Assets\\Scripts\\FloorSlot.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-08T10:03:09.096Z"
             }

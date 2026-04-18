@@ -8,69 +8,72 @@ public class Floor : MonoBehaviour
     public GameObject slotPrefab;
     public GameObject stairNodePrefab;
 
-    List<Node> nodes = new List<Node>();
+    private readonly List<Node> nodes = new List<Node>();
 
-    void Start()
+    public void Initialize()
     {
+        //Debug.Log($"Initializing {name} | slotPrefab={(slotPrefab ? slotPrefab.name : "NULL")} | stairNodePrefab={(stairNodePrefab ? stairNodePrefab.name : "NULL")}");
         GenerateSlots();
         ConnectNodes();
+        //Debug.Log($"{name} created {nodes.Count} nodes.");
     }
 
-    void GenerateSlots()
+    private void GenerateSlots()
     {
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
+        for (int i = transform.childCount - 1; i >= 0; i--)
+            Destroy(transform.GetChild(i).gameObject);
 
         nodes.Clear();
 
         for (int i = 0; i < slotCount; i++)
         {
-            float angle = i * Mathf.PI * 2 / slotCount;
-
-            Vector3 pos = new Vector3(
-                Mathf.Cos(angle) * radius,
-                0,
-                Mathf.Sin(angle) * radius
-            );
+            float angle = i * Mathf.PI * 2f / slotCount;
+            Vector3 pos = new Vector3(Mathf.Cos(angle) * radius, 0f, Mathf.Sin(angle) * radius);
 
             GameObject slot = Instantiate(slotPrefab, transform);
             slot.transform.localPosition = pos;
+            Node node = slot.GetComponent<Node>();
 
-            nodes.Add(slot.GetComponent<Node>());
+            if (node == null)
+                Debug.LogError($"{name}: slotPrefab has no Node component.");
+            else
+                nodes.Add(node);
         }
 
         GameObject stair = Instantiate(stairNodePrefab, transform);
         stair.transform.localPosition = Vector3.zero;
+        Node stairNode = stair.GetComponent<Node>();
 
-        nodes.Add(stair.GetComponent<Node>());
+        if (stairNode == null)
+            Debug.LogError($"{name}: stairNodePrefab has no Node component.");
+        else
+            nodes.Add(stairNode);
     }
 
-    void ConnectNodes()
+    private void ConnectNodes()
     {
-        int ringCount = nodes.Count - 1; // last node is the stair node
+        int ringCount = nodes.Count - 1;
+        if (ringCount <= 0)
+            return;
+
         Node stairNode = nodes[ringCount];
 
-        // Connect nodes in a circular ring
         for (int i = 0; i < ringCount; i++)
         {
             Node current = nodes[i];
             Node next = nodes[(i + 1) % ringCount];
             Node prev = nodes[(i - 1 + ringCount) % ringCount];
 
-            current.neighbors.Add(next);
-            current.neighbors.Add(prev);
+            if (!current.neighbors.Contains(next)) current.neighbors.Add(next);
+            if (!current.neighbors.Contains(prev)) current.neighbors.Add(prev);
         }
 
-        // Connect stair node to two ring nodes
         Node entryA = nodes[0];
         Node entryB = nodes[ringCount / 2];
 
-        entryA.neighbors.Add(stairNode);
-        entryB.neighbors.Add(stairNode);
-
-        stairNode.neighbors.Add(entryA);
-        stairNode.neighbors.Add(entryB);
+        if (!entryA.neighbors.Contains(stairNode)) entryA.neighbors.Add(stairNode);
+        if (!entryB.neighbors.Contains(stairNode)) entryB.neighbors.Add(stairNode);
+        if (!stairNode.neighbors.Contains(entryA)) stairNode.neighbors.Add(entryA);
+        if (!stairNode.neighbors.Contains(entryB)) stairNode.neighbors.Add(entryB);
     }
 }

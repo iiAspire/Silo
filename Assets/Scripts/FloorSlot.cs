@@ -5,7 +5,7 @@ public class FloorSlot : MonoBehaviour
     public GameObject floorPrefab;
     private GameObject spawnedFloor;
 
-    void Start()
+    private void Start()
     {
         BuildFloor();
     }
@@ -16,7 +16,6 @@ public class FloorSlot : MonoBehaviour
             return;
 
         spawnedFloor = Instantiate(floorPrefab, transform);
-
         spawnedFloor.transform.localPosition = Vector3.zero;
         spawnedFloor.transform.localRotation = Quaternion.identity;
     }

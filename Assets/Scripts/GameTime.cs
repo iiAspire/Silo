@@ -2,26 +2,42 @@ using UnityEngine;
 
 public class GameTime : MonoBehaviour
 {
-    public static GameTime Instance;
+    public static GameTime Instance { get; private set; }
 
-    public float timeOfDay = 6f; // start at 06:00
-    public float dayLength = 120f; // seconds per full day
+    [SerializeField] private float startHour = 6f;
+    [SerializeField] private float dayLengthSeconds = 120f;
+    [SerializeField] private bool paused;
 
-    void Awake()
+    public float TimeOfDay { get; private set; }
+    public float DeltaHoursThisFrame { get; private set; }
+
+    private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
+        TimeOfDay = startHour;
     }
 
-    void Update()
+    private void Update()
     {
-        timeOfDay += Time.deltaTime * (24f / dayLength);
+        if (paused)
+        {
+            DeltaHoursThisFrame = 0f;
+            return;
+        }
 
-        if (timeOfDay >= 24f)
-            timeOfDay -= 24f;
+        DeltaHoursThisFrame = Time.deltaTime * (24f / Mathf.Max(1f, dayLengthSeconds));
+        TimeOfDay += DeltaHoursThisFrame;
+
+        while (TimeOfDay >= 24f)
+            TimeOfDay -= 24f;
     }
 
-    public float CurrentHour()
-    {
-        return timeOfDay;
-    }
+    public float CurrentHour() => TimeOfDay;
+    public void SetPaused(bool value) => paused = value;
 }
