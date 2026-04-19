@@ -5,35 +5,40 @@ using UnityEngine;
 
 public class ProceduralRoomPlacer : MonoBehaviour
 {
+    [System.Serializable]
+    public class RoomDefinition
+    {
+        public string name;
+        public GameObject prefab;
+        public NodeType nodeType = NodeType.Work;
+        public WorkplaceType workplaceType = WorkplaceType.None;
+
+        [Range(0f, 1f)] public float topBandWeight = 0f;
+        [Range(0f, 1f)] public float middleBandWeight = 0f;
+        [Range(0f, 1f)] public float bottomBandWeight = 0f;
+
+        public int minCount = 0;
+        public int maxCount = 9999;
+
+        public int minFloor = 0;
+        public int maxFloor = 9999;
+
+        public bool useGuarantee = false;
+        public int everyNFloors = 0;
+
+        public int skipGuaranteedOccurrence = -1;
+
+        [Header("Placement Constraints")]
+        public bool allowMultiplePerFloor = true;
+        public int minFloorGapBetweenPlacements = 0;
+    }
+
     [Header("References")]
     [SerializeField] private Transform floorsParent;
     [SerializeField] private NodeRegistry nodeRegistry;
 
-    [Header("Room Prefabs")]
-    [SerializeField] private GameObject apartmentPrefab;
-    [SerializeField] private GameObject canteenPrefab;
-    [SerializeField] private GameObject generatorPrefab;
-    [SerializeField] private GameObject schoolPrefab;
-    [SerializeField] private GameObject marketPrefab;
-    [SerializeField] private GameObject sheriffStationPrefab;
-    [SerializeField] private GameObject mayorOfficePrefab;
-    [SerializeField] private GameObject porterHubPrefab;
-    [SerializeField] private GameObject itPrefab;
-    [SerializeField] private GameObject securityPrefab;
-    [SerializeField] private GameObject judgesChambersPrefab;
-    [SerializeField] private GameObject clinicPrefab;
-    [SerializeField] private GameObject hospitalPrefab;
-    [SerializeField] private GameObject farmPrefab;
-    [SerializeField] private GameObject butcherPrefab;
-    [SerializeField] private GameObject bakerPrefab;
-    [SerializeField] private GameObject manufacturingPrefab;
-    [SerializeField] private GameObject processingPrefab;
-    [SerializeField] private GameObject supplyPrefab;
-    [SerializeField] private GameObject carpenterPrefab;
-    [SerializeField] private GameObject builderPrefab;
-    [SerializeField] private GameObject cleanerPrefab;
-    [SerializeField] private GameObject prisonerPrefab;
-    [SerializeField] private GameObject recreationPrefab;
+    [Header("Room Definitions")]
+    [SerializeField] private List<RoomDefinitionAsset> roomDefinitions;
 
     [Header("Generation")]
     [SerializeField] private bool generateOnStart = true;
@@ -49,31 +54,6 @@ public class ProceduralRoomPlacer : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float topResidentialBand = 0.60f;
     [SerializeField, Range(0f, 1f)] private float middleMixedBand = 0.25f;
 
-    [Header("Top Band Weights")]
-    [SerializeField] private int topApartmentWeight = 80;
-    [SerializeField] private int topCanteenWeight = 15;
-    [SerializeField] private int topGeneratorWeight = 5;
-
-    [Header("Middle Band Weights")]
-    [SerializeField] private int midApartmentWeight = 55;
-    [SerializeField] private int midCanteenWeight = 30;
-    [SerializeField] private int midGeneratorWeight = 15;
-
-    [Header("Bottom Band Weights")]
-    [SerializeField] private int bottomApartmentWeight = 20;
-    [SerializeField] private int bottomCanteenWeight = 20;
-    [SerializeField] private int bottomGeneratorWeight = 60;
-
-    [Header("Service Guarantees")]
-    [SerializeField] private int canteenEveryNFloors = 12;
-    [SerializeField] private int generatorEveryNFloors = 144;
-
-    [Header("Apartment Gating")]
-    [SerializeField] private int apartmentGateSlotA = 1;
-    [SerializeField] private int apartmentGateSlotB = 2;
-    [SerializeField] private float apartmentGateWeightMultiplier = 1.0f;
-    [SerializeField] private float apartmentClusterWeightMultiplier = 2.5f;
-
     [Header("Naming")]
     [SerializeField] private string floorPrefix = "Floor_";
     [SerializeField] private string slotMarkerNameContains = "Slot";
@@ -81,17 +61,16 @@ public class ProceduralRoomPlacer : MonoBehaviour
     private Transform[] floors;
     private System.Random rng;
 
-    private enum RoomType
-    {
-        Apartment,
-        Canteen,
-        Generator
-    }
-
     private class SlotInfo
     {
         public Transform transform;
         public int slotNumber;
+    }
+
+    public class PlacedRoomInstance : MonoBehaviour
+    {
+        public string DefinitionName;
+        public WorkplaceType WorkplaceType;
     }
 
     private void Start()
@@ -104,8 +83,11 @@ public class ProceduralRoomPlacer : MonoBehaviour
 
     private IEnumerator GenerateAfterDelay()
     {
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
+
         GenerateRooms();
+
+        SimulationManager.Instance.StartSimulation();
     }
 
     [ContextMenu("Generate Rooms")]
@@ -119,9 +101,9 @@ public class ProceduralRoomPlacer : MonoBehaviour
             return;
         }
 
-        if (apartmentPrefab == null || canteenPrefab == null || generatorPrefab == null)
+        if (roomDefinitions == null || roomDefinitions.Count == 0)
         {
-            Debug.LogError("ProceduralRoomPlacer: One or more room prefabs are missing.");
+            Debug.LogError("ProceduralRoomPlacer: No room definitions configured.");
             return;
         }
 
@@ -130,12 +112,21 @@ public class ProceduralRoomPlacer : MonoBehaviour
         if (clearExistingRoomsFirst)
             ClearPreviouslyPlacedRooms();
 
-        int totalPlaced = 0;
-        int apartmentsPlaced = 0;
-        int canteensPlaced = 0;
-        int generatorsPlaced = 0;
+        var placedCounts = new Dictionary<RoomDefinitionAsset, int>();
+        var placedFloors = new Dictionary<RoomDefinitionAsset, List<int>>();
 
-        for (int floorIndex = 0; floorIndex < floors.Length; floorIndex++)
+        foreach (var def in roomDefinitions)
+        {
+            placedCounts[def] = 0;
+            placedFloors[def] = new List<int>();
+        }
+
+        EnsureMinimumCounts(placedCounts, placedFloors);
+
+        List<int> floorOrder = Enumerable.Range(0, floors.Length).ToList();
+        Shuffle(floorOrder);
+
+        foreach (int floorIndex in floorOrder)
         {
             Transform floor = floors[floorIndex];
             List<SlotInfo> slots = GetAvailableSlots(floor);
@@ -151,65 +142,46 @@ public class ProceduralRoomPlacer : MonoBehaviour
                 slots.Count
             );
 
-            bool forceCanteen = canteenEveryNFloors > 0 && floorIndex % canteenEveryNFloors == 0;
-            bool forceGenerator = generatorEveryNFloors > 0 && floorIndex % generatorEveryNFloors == 0;
-
             int placedThisFloor = 0;
 
-            if (forceCanteen && slots.Count > 0)
+            foreach (var def in roomDefinitions)
             {
-                SlotInfo slot = TakeRandomSlot(slots);
-                if (PlaceRoom(canteenPrefab, slot.transform))
-                {
-                    totalPlaced++;
-                    canteensPlaced++;
-                    placedThisFloor++;
-                }
-            }
+                if (!def.useGuarantee || def.everyNFloors <= 0)
+                    continue;
 
-            if (forceGenerator && slots.Count > 0 && placedThisFloor < roomsToPlace)
-            {
-                SlotInfo slot = TakeRandomSlot(slots);
-                if (PlaceRoom(generatorPrefab, slot.transform))
-                {
-                    totalPlaced++;
-                    generatorsPlaced++;
-                    placedThisFloor++;
-                }
-            }
+                if (!ShouldPlaceGuaranteedRoom(def, floorIndex))
+                    continue;
 
-            bool apartmentEnabledOnFloor = false;
+                if (!CanPlaceDefinitionOnFloor(def, floorIndex, placedCounts, placedFloors))
+                    continue;
 
-            if (placedThisFloor < roomsToPlace)
-            {
-                apartmentEnabledOnFloor = TryApartmentGatePlacement(floorIndex, slots, ref totalPlaced, ref apartmentsPlaced, ref placedThisFloor);
-            }
-
-            while (slots.Count > 0 && placedThisFloor < roomsToPlace)
-            {
-                RoomType type = PickWeightedRoomTypeForFloor(
-                    floorIndex,
-                    floors.Length,
-                    apartmentEnabledOnFloor,
-                    isGatePhase: false
-                );
-
-                GameObject prefab = GetPrefab(type);
-                if (prefab == null)
+                if (slots.Count == 0 || placedThisFloor >= roomsToPlace)
                     break;
 
                 SlotInfo slot = TakeRandomSlot(slots);
-                if (PlaceRoom(prefab, slot.transform))
+                if (PlaceRoom(def, slot.transform))
                 {
-                    totalPlaced++;
+                    placedCounts[def]++;
+                    placedFloors[def].Add(floorIndex);
                     placedThisFloor++;
+                }
+            }
 
-                    switch (type)
-                    {
-                        case RoomType.Apartment: apartmentsPlaced++; break;
-                        case RoomType.Canteen: canteensPlaced++; break;
-                        case RoomType.Generator: generatorsPlaced++; break;
-                    }
+            int safety = 0;
+            while (slots.Count > 0 && placedThisFloor < roomsToPlace && safety < 100)
+            {
+                safety++;
+
+                RoomDefinitionAsset choice = PickWeightedDefinition(floorIndex, floors.Length, placedCounts, placedFloors);
+                if (choice == null || choice.prefab == null)
+                    continue;
+
+                SlotInfo slot = TakeRandomSlot(slots);
+                if (PlaceRoom(choice, slot.transform))
+                {
+                    placedCounts[choice]++;
+                    placedFloors[choice].Add(floorIndex);
+                    placedThisFloor++;
                 }
             }
         }
@@ -220,10 +192,54 @@ public class ProceduralRoomPlacer : MonoBehaviour
         if (nodeRegistry != null)
             nodeRegistry.Rebuild();
 
-        Debug.Log(
-            $"ProceduralRoomPlacer complete. Total rooms: {totalPlaced}, " +
-            $"Apartments: {apartmentsPlaced}, Canteens: {canteensPlaced}, Generators: {generatorsPlaced}"
-        );
+        foreach (var kvp in placedCounts.OrderBy(k => k.Key.name))
+            Debug.Log($"Placed count - {kvp.Key.name}: {kvp.Value}");
+    }
+
+    private void EnsureMinimumCounts(
+        Dictionary<RoomDefinitionAsset, int> placedCounts,
+        Dictionary<RoomDefinitionAsset, List<int>> placedFloors)
+    {
+        foreach (var def in roomDefinitions)
+        {
+            if (def == null || def.prefab == null)
+                continue;
+
+            if (def.minCount <= 0)
+                continue;
+
+            int safety = 0;
+            while (placedCounts[def] < def.minCount && safety < 5000)
+            {
+                safety++;
+
+                List<int> candidateFloors = Enumerable.Range(0, floors.Length)
+                    .Where(floorIndex => CanPlaceDefinitionOnFloor(def, floorIndex, placedCounts, placedFloors))
+                    .OrderBy(_ => rng.Next())
+                    .ToList();
+
+                bool placed = false;
+
+                foreach (int floorIndex in candidateFloors)
+                {
+                    List<SlotInfo> slots = GetAvailableSlots(floors[floorIndex]);
+                    if (slots.Count == 0)
+                        continue;
+
+                    SlotInfo slot = TakeRandomSlot(slots);
+                    if (PlaceRoom(def, slot.transform))
+                    {
+                        placedCounts[def]++;
+                        placedFloors[def].Add(floorIndex);
+                        placed = true;
+                        break;
+                    }
+                }
+
+                if (!placed)
+                    break;
+            }
+        }
     }
 
     public void RebuildFloorList()
@@ -245,8 +261,6 @@ public class ProceduralRoomPlacer : MonoBehaviour
 
         floors = foundFloors.ToArray();
         System.Array.Sort(floors, (a, b) => b.position.y.CompareTo(a.position.y));
-
-        Debug.Log($"ProceduralRoomPlacer: found {floors.Length} floors.");
     }
 
     private List<SlotInfo> GetAvailableSlots(Transform floor)
@@ -283,54 +297,103 @@ public class ProceduralRoomPlacer : MonoBehaviour
         return int.MaxValue;
     }
 
-    private bool TryApartmentGatePlacement(
+    private RoomDefinitionAsset PickWeightedDefinition(
         int floorIndex,
-        List<SlotInfo> slots,
-        ref int totalPlaced,
-        ref int apartmentsPlaced,
-        ref int placedThisFloor)
+        int totalFloors,
+        Dictionary<RoomDefinitionAsset, int> placedCounts,
+        Dictionary<RoomDefinitionAsset, List<int>> placedFloors)
     {
-        List<SlotInfo> gateSlots = slots
-            .Where(s => s.slotNumber == apartmentGateSlotA || s.slotNumber == apartmentGateSlotB)
-            .OrderBy(s => s.slotNumber)
-            .ToList();
+        List<RoomDefinitionAsset> candidates = new List<RoomDefinitionAsset>();
 
-        if (gateSlots.Count == 0)
+        foreach (var def in roomDefinitions)
+        {
+            if (def == null || def.prefab == null)
+                continue;
+
+            if (!CanPlaceDefinitionOnFloor(def, floorIndex, placedCounts, placedFloors))
+                continue;
+
+            int weight = GetWeightForFloor(def, floorIndex, totalFloors);
+            if (weight > 0)
+                candidates.Add(def);
+        }
+
+        if (candidates.Count == 0)
+            return null;
+
+        int totalWeight = 0;
+        foreach (var def in candidates)
+            totalWeight += GetWeightForFloor(def, floorIndex, totalFloors);
+
+        if (totalWeight <= 0)
+            return candidates[0];
+
+        int roll = rng.Next(0, totalWeight);
+
+        foreach (var def in candidates)
+        {
+            int weight = GetWeightForFloor(def, floorIndex, totalFloors);
+            if (roll < weight)
+                return def;
+
+            roll -= weight;
+        }
+
+        return candidates[candidates.Count - 1];
+    }
+
+    private int GetWeightForFloor(RoomDefinitionAsset def, int floorIndex, int totalFloors)
+    {
+        float normalized = totalFloors <= 1 ? 0f : (float)floorIndex / (totalFloors - 1);
+
+        float weight = normalized < topResidentialBand
+            ? def.topBandWeight
+            : normalized < topResidentialBand + middleMixedBand
+                ? def.middleBandWeight
+                : def.bottomBandWeight;
+
+        return Mathf.Max(0, Mathf.CeilToInt(weight * 100f));
+    }
+
+    private bool IsDefinitionAllowedOnFloor(RoomDefinitionAsset def, int floorIndex, int totalFloors)
+    {
+        if (def == null)
             return false;
 
-        foreach (SlotInfo gateSlot in gateSlots)
+        if (floorIndex < def.minFloor || floorIndex > def.maxFloor)
+            return false;
+
+        return true;
+    }
+
+    private bool CanPlaceDefinitionOnFloor(
+        RoomDefinitionAsset def,
+        int floorIndex,
+        Dictionary<RoomDefinitionAsset, int> placedCounts,
+        Dictionary<RoomDefinitionAsset, List<int>> placedFloors)
+    {
+        if (def == null)
+            return false;
+
+        if (!IsDefinitionAllowedOnFloor(def, floorIndex, floors.Length))
+            return false;
+
+        if (placedCounts[def] >= def.maxCount)
+            return false;
+
+        if (!def.allowMultiplePerFloor && placedFloors[def].Contains(floorIndex))
+            return false;
+
+        if (def.minFloorGapBetweenPlacements > 0)
         {
-            int apartmentWeight, canteenWeight, generatorWeight;
-            GetBandWeights(floorIndex, floors.Length, out apartmentWeight, out canteenWeight, out generatorWeight);
-
-            apartmentWeight = Mathf.RoundToInt(apartmentWeight * apartmentGateWeightMultiplier);
-
-            RoomType choice = PickWeightedRoomType(apartmentWeight, canteenWeight, generatorWeight);
-
-            slots.Remove(gateSlot);
-
-            if (choice == RoomType.Apartment)
+            foreach (int priorFloor in placedFloors[def])
             {
-                if (PlaceRoom(apartmentPrefab, gateSlot.transform))
-                {
-                    totalPlaced++;
-                    apartmentsPlaced++;
-                    placedThisFloor++;
-                    return true;
-                }
-            }
-            else
-            {
-                GameObject prefab = GetPrefab(choice);
-                if (prefab != null && PlaceRoom(prefab, gateSlot.transform))
-                {
-                    totalPlaced++;
-                    placedThisFloor++;
-                }
+                if (Mathf.Abs(priorFloor - floorIndex) < def.minFloorGapBetweenPlacements)
+                    return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     private SlotInfo TakeRandomSlot(List<SlotInfo> slots)
@@ -341,13 +404,13 @@ public class ProceduralRoomPlacer : MonoBehaviour
         return slot;
     }
 
-    private bool PlaceRoom(GameObject prefab, Transform slot)
+    private bool PlaceRoom(RoomDefinitionAsset def, Transform slot)
     {
-        if (prefab == null || slot == null)
+        if (def == null || def.prefab == null || slot == null)
             return false;
 
-        GameObject room = Instantiate(prefab, slot);
-        room.name = prefab.name;
+        GameObject room = Instantiate(def.prefab, slot);
+        room.name = def.prefab.name;
 
         room.transform.localPosition = Vector3.zero;
         room.transform.localRotation = Quaternion.identity;
@@ -363,88 +426,14 @@ public class ProceduralRoomPlacer : MonoBehaviour
             room.transform.position += Vector3.up * worldLift;
         }
 
+        var placedRoom = room.GetComponent<PlacedRoomInstance>();
+        if (placedRoom == null)
+            placedRoom = room.AddComponent<PlacedRoomInstance>();
+
+        placedRoom.DefinitionName = def.name;
+        placedRoom.WorkplaceType = def.workplaceType;
+
         return true;
-    }
-
-    private RoomType PickWeightedRoomTypeForFloor(
-        int floorIndex,
-        int totalFloors,
-        bool apartmentEnabledOnFloor,
-        bool isGatePhase)
-    {
-        int apartmentWeight, canteenWeight, generatorWeight;
-        GetBandWeights(floorIndex, totalFloors, out apartmentWeight, out canteenWeight, out generatorWeight);
-
-        if (isGatePhase)
-        {
-            apartmentWeight = Mathf.RoundToInt(apartmentWeight * apartmentGateWeightMultiplier);
-        }
-        else
-        {
-            if (!apartmentEnabledOnFloor)
-            {
-                apartmentWeight = 0;
-            }
-            else
-            {
-                apartmentWeight = Mathf.RoundToInt(apartmentWeight * apartmentClusterWeightMultiplier);
-            }
-        }
-
-        return PickWeightedRoomType(apartmentWeight, canteenWeight, generatorWeight);
-    }
-
-    private void GetBandWeights(int floorIndex, int totalFloors, out int apartmentWeight, out int canteenWeight, out int generatorWeight)
-    {
-        float normalized = totalFloors <= 1 ? 0f : (float)floorIndex / (totalFloors - 1);
-
-        if (normalized < topResidentialBand)
-        {
-            apartmentWeight = topApartmentWeight;
-            canteenWeight = topCanteenWeight;
-            generatorWeight = topGeneratorWeight;
-        }
-        else if (normalized < topResidentialBand + middleMixedBand)
-        {
-            apartmentWeight = midApartmentWeight;
-            canteenWeight = midCanteenWeight;
-            generatorWeight = midGeneratorWeight;
-        }
-        else
-        {
-            apartmentWeight = bottomApartmentWeight;
-            canteenWeight = bottomCanteenWeight;
-            generatorWeight = bottomGeneratorWeight;
-        }
-    }
-
-    private RoomType PickWeightedRoomType(int apartmentWeight, int canteenWeight, int generatorWeight)
-    {
-        int totalWeight = apartmentWeight + canteenWeight + generatorWeight;
-        if (totalWeight <= 0)
-            return RoomType.Generator;
-
-        int roll = rng.Next(0, totalWeight);
-
-        if (roll < apartmentWeight)
-            return RoomType.Apartment;
-
-        roll -= apartmentWeight;
-        if (roll < canteenWeight)
-            return RoomType.Canteen;
-
-        return RoomType.Generator;
-    }
-
-    private GameObject GetPrefab(RoomType type)
-    {
-        switch (type)
-        {
-            case RoomType.Apartment: return apartmentPrefab;
-            case RoomType.Canteen: return canteenPrefab;
-            case RoomType.Generator: return generatorPrefab;
-            default: return null;
-        }
     }
 
     private void ClearPreviouslyPlacedRooms()
@@ -462,20 +451,48 @@ public class ProceduralRoomPlacer : MonoBehaviour
                 if (child == floor)
                     continue;
 
-                if ((apartmentPrefab != null && child.name == apartmentPrefab.name) ||
-                    (canteenPrefab != null && child.name == canteenPrefab.name) ||
-                    (generatorPrefab != null && child.name == generatorPrefab.name))
+                if (!child.name.Contains(slotMarkerNameContains))
+                    continue;
+
+                for (int i = child.childCount - 1; i >= 0; i--)
                 {
 #if UNITY_EDITOR
                     if (!Application.isPlaying)
-                        DestroyImmediate(child.gameObject);
+                        DestroyImmediate(child.GetChild(i).gameObject);
                     else
-                        Destroy(child.gameObject);
+                        Destroy(child.GetChild(i).gameObject);
 #else
-                    Destroy(child.gameObject);
+                    Destroy(child.GetChild(i).gameObject);
 #endif
                 }
             }
+        }
+    }
+
+    private bool ShouldPlaceGuaranteedRoom(RoomDefinitionAsset def, int floorIndex)
+    {
+        if (def == null || !def.useGuarantee || def.everyNFloors <= 0)
+            return false;
+
+        int floorNumber = floorIndex + 1;
+
+        if (floorNumber % def.everyNFloors != 0)
+            return false;
+
+        int occurrence = floorNumber / def.everyNFloors;
+
+        if (def.skipGuaranteedOccurrence > 0 && occurrence == def.skipGuaranteedOccurrence)
+            return false;
+
+        return true;
+    }
+
+    private void Shuffle<T>(IList<T> list)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int j = rng.Next(i + 1);
+            (list[i], list[j]) = (list[j], list[i]);
         }
     }
 }

@@ -13,7 +13,7 @@ public static class CsvLoader
 
         foreach (var row in rows)
         {
-            result.Add(new JobDefinition
+            var job = new JobDefinition
             {
                 Job = Get(row, "Jobs"),
                 Current = ToInt(Get(row, "Current")),
@@ -33,7 +33,13 @@ public static class CsvLoader
                 ShiftLength = ToInt(Get(row, "ShiftLength")),
                 EarlyEnd = ToBool(Get(row, "EarlyEnd")),
                 Lunch = ToBool(Get(row, "Lunch"))
-            });
+            };
+
+            AddShiftIfValid(job.ShiftStartMinutes, job.Shift1);
+            AddShiftIfValid(job.ShiftStartMinutes, job.Shift2);
+            AddShiftIfValid(job.ShiftStartMinutes, job.Shift3);
+
+            result.Add(job);
         }
 
         return result;
@@ -129,4 +135,31 @@ public static class CsvLoader
 
     private static bool ToBool(string value)
         => value.Trim().Equals("Y", StringComparison.OrdinalIgnoreCase) || value.Trim().Equals("True", StringComparison.OrdinalIgnoreCase);
+
+    private static void AddShiftIfValid(List<int> list, string value)
+    {
+        int minutes = ParseTimeToMinutes(value);
+        if (minutes >= 0)
+            list.Add(minutes);
+    }
+
+    private static int ParseTimeToMinutes(string value)
+    {
+        value = value.Trim();
+        if (string.IsNullOrEmpty(value))
+            return -1;
+
+        string[] formats = { @"h\:mm", @"hh\:mm", @"h\:mm\:ss", @"hh\:mm\:ss" };
+
+        foreach (string format in formats)
+        {
+            if (TimeSpan.TryParseExact(value, format, CultureInfo.InvariantCulture, out var ts))
+                return (int)ts.TotalMinutes;
+        }
+
+        if (TimeSpan.TryParse(value, CultureInfo.InvariantCulture, out var fallback))
+            return (int)fallback.TotalMinutes;
+
+        return -1;
+    }
 }

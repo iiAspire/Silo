@@ -574,6 +574,7 @@ GameObject:
   - component: {fileID: 4671792624564128673}
   - component: {fileID: 6448436393633994478}
   - component: {fileID: 6265395411688132509}
+  - component: {fileID: 8357151221323682827}
   m_Layer: 0
   m_Name: WorkerSilhouette
   m_TagString: Untagged
@@ -637,6 +638,29 @@ MonoBehaviour:
   armSwingAngle: 18
   legSwingAngle: 16
   swingSpeed: 8
+--- !u!136 &8357151221323682827
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8285954556627460093}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9211407166375235551
 GameObject:
   m_ObjectHideFlags: 0

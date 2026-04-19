@@ -12,10 +12,10 @@ public class Floor : MonoBehaviour
 
     public void Initialize()
     {
-        //Debug.Log($"Initializing {name} | slotPrefab={(slotPrefab ? slotPrefab.name : "NULL")} | stairNodePrefab={(stairNodePrefab ? stairNodePrefab.name : "NULL")}");
+        Debug.Log($"Initializing {name} | slotPrefab={(slotPrefab ? slotPrefab.name : "NULL")} | stairNodePrefab={(stairNodePrefab ? stairNodePrefab.name : "NULL")}");
         GenerateSlots();
         ConnectNodes();
-        //Debug.Log($"{name} created {nodes.Count} nodes.");
+        Debug.Log($"{name} created {nodes.Count} nodes.");
     }
 
     private void GenerateSlots()

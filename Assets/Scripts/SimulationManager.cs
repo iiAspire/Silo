@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SimulationManager : MonoBehaviour
@@ -23,32 +24,79 @@ public class SimulationManager : MonoBehaviour
         Instance = this;
         World = new WorldState();
     }
+    public void StartSimulation()
+    {
+        StartCoroutine(StartCoroutine());
+    }
 
-    private IEnumerator Start()
+
+    private IEnumerator StartCoroutine()
     {
         LoadData();
 
-        yield return null;
+        yield return null; // wait 1 frame
 
-        if (NodeRegistry.Instance != null)
-            NodeRegistry.Instance.Rebuild();
+        // Wait for rooms to be generated
+        while (NodeRegistry.Instance.work.Count == 0)
+            yield return null;
+
+        NodeRegistry.Instance.Rebuild(); // refresh the registry
 
         AssignInitialNodes();
-        BuildSystems();
         SpawnViews();
+        AssignWorkplaces();
+        AssignShifts();
+        BuildSystems();
     }
 
     private void Update()
     {
         accumulator += Time.deltaTime;
 
+        if (World.Tick == 0)
+        {
+            var a = World.Agents[0];
+            var node = a.AssignedWorkNode;
+
+            Debug.Log(
+                $"First update work == null? {node == null}, " +
+                $"ReferenceEquals null? {ReferenceEquals(node, null)}, " +
+                $"node raw name: {(ReferenceEquals(node, null) ? "real-null" : node.name)}"
+            );
+        }
+
         while (accumulator >= tickInterval)
         {
             accumulator -= tickInterval;
             World.Tick++;
 
+            AdvanceWorldClock(10);  // example: 10 in-game minutes per sim tick
+
+            if (World.Tick % 20 == 0)
+            {
+                Debug.Log($"Before systems Tick={World.Tick}: WorkNodes={World.Agents.Count(a => a.AssignedWorkNode != null)}/{World.Agents.Count}");
+            }
+
             for (int i = 0; i < systems.Count; i++)
                 systems[i].Tick(World);
+
+            if (World.Tick % 20 == 0)
+            {
+                int withJob = World.Agents.Count(a => !string.IsNullOrWhiteSpace(a.Job));
+                int withWorkNode = World.Agents.Count(a => a.AssignedWorkNode != null);
+                int withIntent = World.Agents.Count(a => a.CurrentIntent != IntentType.None);
+                int withTarget = World.Agents.Count(a => a.TargetNode != null);
+                int withPath = World.Agents.Count(a => a.CurrentPath != null && a.CurrentPath.Count > 0);
+
+                Debug.Log(
+                    $"Tick={World.Tick} Time={World.MinuteOfDay} " +
+                    $"Jobs={withJob}/{World.Agents.Count} " +
+                    $"WorkNodes={withWorkNode}/{World.Agents.Count} " +
+                    $"Intent={withIntent}/{World.Agents.Count} " +
+                    $"Target={withTarget}/{World.Agents.Count} " +
+                    $"Path={withPath}/{World.Agents.Count}"
+                );
+            }
         }
 
         SyncViews();
@@ -78,7 +126,7 @@ public class SimulationManager : MonoBehaviour
 
         var spawnNodes = NodeRegistry.Instance.walk;
 
-        Debug.Log($"Walk nodes available: {spawnNodes.Count}");
+        //Debug.Log($"Walk nodes available: {spawnNodes.Count}");
 
         if (spawnNodes == null || spawnNodes.Count == 0)
         {
@@ -92,7 +140,7 @@ public class SimulationManager : MonoBehaviour
             World.Agents[i].CurrentNode = node;
         }
 
-        //Debug.Log($"Assigned initial nodes to {World.Agents.Count} agents.");
+        Debug.Log($"Assigned initial nodes to {World.Agents.Count} agents.");
     }
 
     private void BuildSystems()
@@ -138,6 +186,77 @@ public class SimulationManager : MonoBehaviour
         {
             if (viewsByAgentId.TryGetValue(agent.AgentId, out var view))
                 view.Sync(agent);
+        }
+    }
+
+    private void AssignWorkplaces()
+    {
+        if (NodeRegistry.Instance == null)
+        {
+            Debug.LogError("No NodeRegistry found in scene.");
+            return;
+        }
+
+        List<Node> allNodes = NodeRegistry.Instance.all;
+        if (allNodes == null || allNodes.Count == 0)
+        {
+            Debug.LogWarning("No nodes available for workplace assignment.");
+            return;
+        }
+
+        foreach (var agent in World.Agents)
+        {
+            if (string.IsNullOrWhiteSpace(agent.Job))
+                continue;
+
+            if (agent.AssignedWorkNode != null)
+                agent.AssignedWorkNode.UnassignWorker(agent.AgentId);
+
+            Node workNode = WorkplaceAssignmentUtility.FindBestWorkNodeForJob(agent.Job, allNodes);
+
+            agent.AssignedWorkNode = workNode;
+
+            if (workNode != null)
+                workNode.AssignWorker(agent.AgentId);
+
+             Debug.Log($"Agent {agent.AgentId} ({agent.Job}) assigned to {(workNode != null ? workNode.name : "NO WORK NODE")}");
+        }
+
+        int withWorkNode = World.Agents.Count(a => a.AssignedWorkNode != null);
+        Debug.Log($"Assigned workplaces to {withWorkNode}/{World.Agents.Count} agents.");
+    }
+
+    private void AssignShifts()
+    {
+        foreach (var agent in World.Agents)
+        {
+            JobDefinition job = World.JobDefinitions.Find(j => j.Job == agent.Job);
+            if (job == null || job.ShiftStartMinutes.Count == 0)
+                continue;
+
+            int sameJobIndex = World.Agents
+                .Where(a => a.Job == agent.Job && a.AgentId <= agent.AgentId)
+                .Count() - 1;
+
+            int shiftIndex = sameJobIndex % job.ShiftStartMinutes.Count;
+
+            agent.AssignedShiftIndex = shiftIndex;
+            agent.AssignedShiftStartMinute = job.ShiftStartMinutes[shiftIndex];
+            agent.AssignedShiftLengthMinutes = job.ShiftLength;
+        }
+
+        int withShift = World.Agents.Count(a => a.AssignedShiftStartMinute >= 0);
+        Debug.Log($"Assigned shifts to {withShift}/{World.Agents.Count} agents.");
+    }
+
+    private void AdvanceWorldClock(int minutes)
+    {
+        World.MinuteOfDay += minutes;
+
+        while (World.MinuteOfDay >= 1440)
+        {
+            World.MinuteOfDay -= 1440;
+            World.Day++;
         }
     }
 }

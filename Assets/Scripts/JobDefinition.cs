@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class JobDefinition
 {
     public string Job;
@@ -12,10 +14,13 @@ public class JobDefinition
     public int Fairness;
     public int Compassion;
     public int Power;
+
     public string Shift1;
     public string Shift2;
     public string Shift3;
     public int ShiftLength;
     public bool EarlyEnd;
     public bool Lunch;
+
+    public List<int> ShiftStartMinutes = new List<int>();
 }

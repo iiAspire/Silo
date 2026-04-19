@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5b9f5abc000334fbe551097cff2c1f, type: 3}
+  m_Name: Sheriff Station
+  m_EditorClassIdentifier: Assembly-CSharp::RoomDefinitionAsset
+  name: Sheriff Station
+  prefab: {fileID: 889357300447692357, guid: d2f49af8be195ad4a88069b73f16fc56, type: 3}
+  nodeType: 3
+  workplaceType: 11
+  topBandWeight: 0
+  middleBandWeight: 0
+  bottomBandWeight: 1
+  minCount: 1
+  maxCount: 1
+  minFloor: 0
+  maxFloor: 0
+  useGuarantee: 0
+  everyNFloors: 0
+  skipGuaranteedOccurrence: -1
+  allowMultiplePerFloor: 0
+  minFloorGapBetweenPlacements: 0

@@ -1,8 +1,37 @@
+using System;
 using System.Collections.Generic;
+
+public enum IntentType
+{
+    None,
+    Work,
+    Sleep,
+    Eat,
+    Wander,
+    Shop,
+    SendPackage,
+    VisitPrisoner,
+    FileReport,
+    AttendAppointment,
+    SocialVisit
+}
+
+public enum RelationshipType
+{
+    Family,
+    Partner,
+    Friend,
+    Coworker,
+    Neighbor
+}
 
 public class AgentRecord
 {
     public int AgentId;
+    public string Name;
+    public string Sex;
+    public int HouseholdID;
+    public string HouseholdRole;
     public string Job;
     public int Age;
     public int Health;
@@ -20,9 +49,59 @@ public class AgentRecord
 
     public Node CurrentNode;
     public Node TargetNode;
+
+    private Node assignedWorkNode;
+    public Node AssignedWorkNode
+    {
+        get => assignedWorkNode;
+        set
+        {
+            if (assignedWorkNode != value)
+            {
+                //UnityEngine.Debug.Log($"Agent {AgentId} AssignedWorkNode: " +
+                //          $"{(assignedWorkNode ? assignedWorkNode.name : "null")} -> " +
+                //          $"{(value ? value.name : "null")}\n{System.Environment.StackTrace}");
+            }
+            assignedWorkNode = value;
+        }
+    }
+    public Node AssignedHomeNode;
+    public int AssignedShiftIndex = -1;
+    public int AssignedShiftStartMinute = -1;
+    public int AssignedShiftLengthMinutes = 0;
+
+    public IntentType CurrentIntent;
+    public ErrandRecord ActiveErrand;
+    public List<ErrandRecord> PendingErrands = new();
+    public List<RelationshipLink> Relationships = new();
     public bool IsAlive = true;
 
     public List<Node> CurrentPath = new List<Node>();
     public int PathIndex = 0;
     public float WaitTimer = 0f;
+}
+
+public class ErrandRecord
+{
+    public IntentType Intent;
+    public NodeType TargetNodeType;
+    public Node TargetNode;
+    public int Priority;
+    public float EarliestStartTick;
+    public float ExpireTick;
+    public bool IsMandatory;
+    public string CurrentErrand;
+    public string TargetAgentID;
+}
+
+public class RelationshipLink
+{
+    public int OtherAgentId;
+    public RelationshipType Type;
+    public float Strength;   // 0-1
+    public bool HouseholdTie;
+    public int PartnerAgentID;
+    public string ChildrenCount;
+    public int RelationshipCount;
+    public int ClosestRelationshipSummary;
 }

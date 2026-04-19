@@ -76,7 +76,7 @@ public class FloorVisibilityController : MonoBehaviour
             bool shouldBeVisible = Mathf.Abs(i - currentFloor) <= visibleRange;
             floors[i].gameObject.SetActive(shouldBeVisible);
 
-            Debug.Log($"Floor {i} ({floors[i].name}) visible = {shouldBeVisible}");
+            //Debug.Log($"Floor {i} ({floors[i].name}) visible = {shouldBeVisible}");
         }
     }
 

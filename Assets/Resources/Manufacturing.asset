@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5b9f5abc000334fbe551097cff2c1f, type: 3}
+  m_Name: Manufacturing
+  m_EditorClassIdentifier: Assembly-CSharp::RoomDefinitionAsset
+  name: Manufacturing
+  prefab: {fileID: 1362595274169132841, guid: c664e90cbd09a654eb5d1b78c4761f56, type: 3}
+  nodeType: 3
+  workplaceType: 20
+  topBandWeight: 0.4
+  middleBandWeight: 0.3
+  bottomBandWeight: 0.3
+  minCount: 1
+  maxCount: 1
+  minFloor: 100
+  maxFloor: 140
+  useGuarantee: 1
+  everyNFloors: 0
+  skipGuaranteedOccurrence: -1
+  allowMultiplePerFloor: 0
+  minFloorGapBetweenPlacements: 0

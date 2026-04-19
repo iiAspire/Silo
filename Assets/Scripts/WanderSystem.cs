@@ -23,29 +23,67 @@ public class WanderSystem : IWorldSystem
                 continue;
             }
 
-            bool hasPath = agent.CurrentPath != null && agent.CurrentPath.Count > 0 && agent.PathIndex < agent.CurrentPath.Count;
+            bool hasPath = agent.CurrentPath != null &&
+                           agent.CurrentPath.Count > 0 &&
+                           agent.PathIndex < agent.CurrentPath.Count;
+
             if (hasPath)
                 continue;
 
             if (agent.CurrentNode == null)
                 continue;
 
+            if (IsOnShift(world, agent) && agent.AssignedWorkNode != null)
+            {
+                TryAssignPath(agent, agent.AssignedWorkNode, RandomRange(0.2f, 0.8f));
+                continue;
+            }
+
             Node target = PickRandomTarget(walkNodes, agent.CurrentNode);
             if (target == null)
                 continue;
 
-            List<Node> path = NodePathfinder.FindPath(agent.CurrentNode, target);
-            if (path == null || path.Count <= 1)
-            {
-                agent.WaitTimer = RandomRange(1f, 3f);
-                continue;
-            }
-
-            agent.TargetNode = target;
-            agent.CurrentPath = path;
-            agent.PathIndex = 1;
-            agent.WaitTimer = RandomRange(0.5f, 2f);
+            TryAssignPath(agent, target, RandomRange(0.5f, 2f));
         }
+    }
+
+    private bool IsOnShift(WorldState world, AgentRecord agent)
+    {
+        if (agent.AssignedShiftStartMinute < 0 || agent.AssignedShiftLengthMinutes <= 0)
+            return false;
+
+        int start = agent.AssignedShiftStartMinute;
+        int end = (start + agent.AssignedShiftLengthMinutes) % 1440;
+        int now = world.MinuteOfDay;
+
+        if (start < end)
+            return now >= start && now < end;
+
+        return now >= start || now < end;
+    }
+
+    private void TryAssignPath(AgentRecord agent, Node target, float failWaitTime)
+    {
+        if (target == null || agent.CurrentNode == null)
+            return;
+
+        if (agent.CurrentNode == target)
+        {
+            agent.TargetNode = target;
+            agent.WaitTimer = RandomRange(1f, 3f);
+            return;
+        }
+
+        List<Node> path = NodePathfinder.FindPath(agent.CurrentNode, target);
+        if (path == null || path.Count <= 1)
+        {
+            agent.WaitTimer = failWaitTime;
+            return;
+        }
+
+        agent.TargetNode = target;
+        agent.CurrentPath = path;
+        agent.PathIndex = 1;
     }
 
     private Node PickRandomTarget(List<Node> walkNodes, Node current)
