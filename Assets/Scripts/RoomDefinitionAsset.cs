@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Rooms/Room Definition")]
 public class RoomDefinitionAsset : ScriptableObject
 {
-    public string name;
+    public string roomName;
     public GameObject prefab;
     public NodeType nodeType = NodeType.Work;
     public WorkplaceType workplaceType = WorkplaceType.None;

@@ -39,12 +39,20 @@ public class WorkerInspectorPanel : MonoBehaviour
     [SerializeField] private TMP_Text relationshipsText;
     [SerializeField] private TMP_Text statsText;
 
+    [Header("Selection Tools")]
+    [SerializeField] private AgentSelectionManager selectionManager;
+    [SerializeField] private TMP_InputField agentIdInput;
+    [SerializeField] private Button goToSelectedButton;
+    [SerializeField] private Button goToTypedIdButton;
+    [SerializeField] private Button fillTypedIdFromSelectedButton;
+
     private WorkerView selectedWorker;
     private Tab currentTab = Tab.Overview;
     private bool isPinned;
     private bool isTargetLocked;
-    public bool IsPinned => isPinned;                   // keeps card inspector open
-    public bool IsTargetLocked => isTargetLocked;       // not yet implemented, will allow player to prevent card change to new worker
+
+    public bool IsPinned => isPinned;
+    public bool IsTargetLocked => isTargetLocked;
     public WorkerView SelectedWorker => selectedWorker;
     public GameObject PanelRoot => panelRoot;
 
@@ -53,14 +61,59 @@ public class WorkerInspectorPanel : MonoBehaviour
         if (canvasGroup == null)
             canvasGroup = GetComponent<CanvasGroup>();
 
+        //Debug.Log(
+        //    $"InspectorPanel Awake | " +
+        //    $"overviewBtn={(overviewTabButton != null)} " +
+        //    $"relationshipsBtn={(relationshipsTabButton != null)} " +
+        //    $"statsBtn={(statsTabButton != null)} " +
+        //    $"goToSelectedBtn={(goToSelectedButton != null)} " +
+        //    $"goToTypedIdBtn={(goToTypedIdButton != null)} " +
+        //    $"fillTypedBtn={(fillTypedIdFromSelectedButton != null)} " +
+        //    $"selectionManager={(selectionManager != null)} " +
+        //    $"agentIdInput={(agentIdInput != null)}"
+        //);
+
         if (overviewTabButton != null)
-            overviewTabButton.onClick.AddListener(() => ShowTab(Tab.Overview));
+            overviewTabButton.onClick.AddListener(() =>
+            {
+                //Debug.Log("Overview tab button clicked");
+                ShowTab(Tab.Overview);
+            });
 
         if (relationshipsTabButton != null)
-            relationshipsTabButton.onClick.AddListener(() => ShowTab(Tab.Relationships));
+            relationshipsTabButton.onClick.AddListener(() =>
+            {
+                //Debug.Log("Relationships tab button clicked");
+                ShowTab(Tab.Relationships);
+            });
 
         if (statsTabButton != null)
-            statsTabButton.onClick.AddListener(() => ShowTab(Tab.Stats));
+            statsTabButton.onClick.AddListener(() =>
+            {
+                //Debug.Log("Stats tab button clicked");
+                ShowTab(Tab.Stats);
+            });
+
+        if (goToSelectedButton != null)
+            goToSelectedButton.onClick.AddListener(() =>
+            {
+                //Debug.Log("GoToSelected button clicked");
+                FocusSelectedAgent();
+            });
+
+        if (goToTypedIdButton != null)
+            goToTypedIdButton.onClick.AddListener(() =>
+            {
+                //Debug.Log("GoToTypedId button clicked");
+                FocusTypedAgentId();
+            });
+
+        if (fillTypedIdFromSelectedButton != null)
+            fillTypedIdFromSelectedButton.onClick.AddListener(() =>
+            {
+                //Debug.Log("FillTypedId button clicked");
+                CopySelectedAgentIdToInput();
+            });
 
         HideImmediate();
         ShowTab(Tab.Overview);
@@ -89,22 +142,12 @@ public class WorkerInspectorPanel : MonoBehaviour
             canvasGroup.blocksRaycasts = true;
         }
 
+        //Debug.Log(
+        //    $"WorkerInspectorPanel.Show -> worker='{worker.name}' " +
+        //    $"agent={(worker.Agent != null ? worker.Agent.AgentId.ToString() : "none")}"
+        //);
+
         Refresh();
-    }
-
-    private string GetNodeDisplayName(Node node)
-    {
-        if (node == null)
-            return "None";
-
-        var placedRoom = node.GetComponentInParent<ProceduralRoomPlacer.PlacedRoomInstance>();
-        if (placedRoom != null && !string.IsNullOrEmpty(placedRoom.DefinitionName))
-            return placedRoom.DefinitionName;
-
-        if (node.transform.parent != null)
-            return node.transform.parent.name;
-
-        return node.name;
     }
 
     public void Hide()
@@ -127,6 +170,69 @@ public class WorkerInspectorPanel : MonoBehaviour
     {
         isPinned = !isPinned;
         Refresh();
+    }
+
+    public void FocusSelectedAgent()
+    {
+        //Debug.Log("FocusSelectedAgent called");
+
+        if (selectionManager == null)
+        {
+            //Debug.LogWarning("FocusSelectedAgent failed: selectionManager is null.");
+            return;
+        }
+
+        if (selectedWorker == null || selectedWorker.Agent == null)
+        {
+            //Debug.LogWarning("FocusSelectedAgent failed: selectedWorker or selectedWorker.Agent is null.");
+            return;
+        }
+
+        selectionManager.SelectByAgentId(selectedWorker.Agent.AgentId, true);
+    }
+
+    public void FocusTypedAgentId()
+    {
+        //Debug.Log("FocusTypedAgentId called");
+
+        if (selectionManager == null)
+        {
+            //Debug.LogWarning("FocusTypedAgentId failed: selectionManager is null.");
+            return;
+        }
+
+        if (agentIdInput == null)
+        {
+            //Debug.LogWarning("FocusTypedAgentId failed: agentIdInput is null.");
+            return;
+        }
+
+        if (!int.TryParse(agentIdInput.text, out int agentId))
+        {
+            //Debug.LogWarning($"Invalid AgentId input: '{agentIdInput.text}'");
+            return;
+        }
+
+        selectionManager.SelectByAgentId(agentId, true);
+    }
+
+    public void CopySelectedAgentIdToInput()
+    {
+        //Debug.Log("CopySelectedAgentIdToInput called");
+
+        if (agentIdInput == null)
+        {
+            //Debug.LogWarning("CopySelectedAgentIdToInput failed: agentIdInput is null.");
+            return;
+        }
+
+        if (selectedWorker == null || selectedWorker.Agent == null)
+        {
+            //Debug.LogWarning("CopySelectedAgentIdToInput failed: selected worker is null.");
+            return;
+        }
+
+        agentIdInput.text = selectedWorker.Agent.AgentId.ToString();
     }
 
     public void ShowTab(Tab tab)
@@ -196,12 +302,9 @@ public class WorkerInspectorPanel : MonoBehaviour
         if (portraitImage != null && defaultPortrait != null)
             portraitImage.sprite = defaultPortrait;
 
-        if (overviewText != null)
-            overviewText.text = "";
-        if (relationshipsText != null)
-            relationshipsText.text = "";
-        if (statsText != null)
-            statsText.text = "";
+        if (overviewText != null) overviewText.text = "";
+        if (relationshipsText != null) relationshipsText.text = "";
+        if (statsText != null) statsText.text = "";
     }
 
     private string GetDisplayName(AgentRecord agent)
@@ -222,11 +325,26 @@ public class WorkerInspectorPanel : MonoBehaviour
         return $"{sex} • {age} • {household} • {role}";
     }
 
+    private string GetNodeDisplayName(Node node)
+    {
+        if (node == null)
+            return "None";
+
+        var placedRoom = node.GetComponentInParent<ProceduralRoomPlacer.PlacedRoomInstance>();
+        if (placedRoom != null && !string.IsNullOrEmpty(placedRoom.DefinitionName))
+            return placedRoom.DefinitionName;
+
+        if (node.transform.parent != null)
+            return node.transform.parent.name;
+
+        return node.name;
+    }
+
     private string BuildOverview(AgentRecord agent, WorldState world)
     {
-        string job = string.IsNullOrWhiteSpace(agent.Job) ? "None" : agent.Job;
+        string job = string.IsNullOrWhiteSpace(agent.BaseJob) ? "None" : agent.BaseJob;
         string intent = agent.CurrentIntent.ToString();
-        string onShift = world != null && IsOnShift(world, agent) ? "Yes" : "No";
+        string onShift = SimulationManager.Instance != null && SimulationManager.Instance.IsAgentOnShift(agent) ? "Yes" : "No";
 
         string currentErrand = agent.ActiveErrand != null && !string.IsNullOrWhiteSpace(agent.ActiveErrand.CurrentErrand)
             ? agent.ActiveErrand.CurrentErrand
@@ -307,20 +425,5 @@ public class WorkerInspectorPanel : MonoBehaviour
             $"Path Index: {agent.PathIndex}\n" +
             $"Path Count: {(agent.CurrentPath != null ? agent.CurrentPath.Count : 0)}\n" +
             $"Wait Timer: {agent.WaitTimer:0.0}";
-    }
-
-    private bool IsOnShift(WorldState world, AgentRecord agent)
-    {
-        if (agent.AssignedShiftStartMinute < 0 || agent.AssignedShiftLengthMinutes <= 0)
-            return false;
-
-        int start = agent.AssignedShiftStartMinute;
-        int end = (start + agent.AssignedShiftLengthMinutes) % 1440;
-        int now = world.MinuteOfDay;
-
-        if (start < end)
-            return now >= start && now < end;
-
-        return now >= start || now < end;
     }
 }

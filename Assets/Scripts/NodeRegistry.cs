@@ -63,7 +63,7 @@ public class NodeRegistry : MonoBehaviour
         foreach (var node in nodes)
             Register(node);
 
-        Debug.Log($"NodeRegistry rebuilt. Total: {all.Count}, Walk: {walk.Count}, Stair: {stairs.Count}, Home: {homes.Count}, Work: {work.Count}, Food: {food.Count}, " +
-            $"Recreation: {recreation.Count}, Hospital: {hospital.Count}, Clinic: {clinic.Count}");
+        //Debug.Log($"NodeRegistry rebuilt. Total: {all.Count}, Walk: {walk.Count}, Stair: {stairs.Count}, Home: {homes.Count}, Work: {work.Count}, Food: {food.Count}, " +
+        //    $"Recreation: {recreation.Count}, Hospital: {hospital.Count}, Clinic: {clinic.Count}");
     }
 }

@@ -24,7 +24,7 @@ public class WorkerSelectionController : MonoBehaviour
 
         if (targetCamera == null)
         {
-            Debug.LogWarning("WorkerSelectionController: No target camera assigned.");
+            //Debug.LogWarning("WorkerSelectionController: No target camera assigned.");
             return;
         }
 

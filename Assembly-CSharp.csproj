@@ -67,10 +67,12 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\Scripts\TaskRecord.cs" />
     <Compile Include="Assets\Scripts\JobSystem.cs" />
+    <Compile Include="Assets\Scripts\AgentSelectionManager.cs" />
     <Compile Include="Assets\Scripts\FloorSlot.cs" />
     <Compile Include="Assets\Scripts\WorkerInspectorPanel.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\Scripts\ProceduralRoomPlacer.cs" />
+    <Compile Include="Assets\Scripts\AgentCameraFocus.cs" />
     <Compile Include="Assets\Scripts\RoomDefinitionAsset.cs" />
     <Compile Include="Assets\Scripts\UIPointerDebug.cs" />
     <Compile Include="Assets\Scripts\CsvLoader.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+    <Compile Include="Assets\Scripts\AgentIdJumpUI.cs" />
     <Compile Include="Assets\Scripts\WorkerSelectionController.cs" />
     <Compile Include="Assets\Scripts\WorldState.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />

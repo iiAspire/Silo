@@ -97,13 +97,13 @@ public class ProceduralRoomPlacer : MonoBehaviour
 
         if (floors == null || floors.Length == 0)
         {
-            Debug.LogError("ProceduralRoomPlacer: No floors found.");
+            //Debug.LogError("ProceduralRoomPlacer: No floors found.");
             return;
         }
 
         if (roomDefinitions == null || roomDefinitions.Count == 0)
         {
-            Debug.LogError("ProceduralRoomPlacer: No room definitions configured.");
+            //Debug.LogError("ProceduralRoomPlacer: No room definitions configured.");
             return;
         }
 
@@ -192,8 +192,8 @@ public class ProceduralRoomPlacer : MonoBehaviour
         if (nodeRegistry != null)
             nodeRegistry.Rebuild();
 
-        foreach (var kvp in placedCounts.OrderBy(k => k.Key.name))
-            Debug.Log($"Placed count - {kvp.Key.name}: {kvp.Value}");
+        //foreach (var kvp in placedCounts.OrderBy(k => k.Key.name))
+            //Debug.Log($"Placed count - {kvp.Key.name}: {kvp.Value}");
     }
 
     private void EnsureMinimumCounts(
@@ -247,7 +247,7 @@ public class ProceduralRoomPlacer : MonoBehaviour
         if (floorsParent == null)
         {
             floors = new Transform[0];
-            Debug.LogWarning("ProceduralRoomPlacer: floorsParent is not assigned.");
+            //Debug.LogWarning("ProceduralRoomPlacer: floorsParent is not assigned.");
             return;
         }
 

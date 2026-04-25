@@ -34,9 +34,6 @@ public class FloorCameraController : MonoBehaviour
     private Vector3 targetPosition;
     private Quaternion targetRotation;
 
-    private enum ViewMode { Close, Far }
-    [SerializeField] private ViewMode currentViewMode = ViewMode.Close;
-
     private void Start()
     {
         if (floorVisibilityController == null)
@@ -87,7 +84,7 @@ public class FloorCameraController : MonoBehaviour
         if (floorsParent == null)
         {
             floors = new Transform[0];
-            Debug.LogWarning("FloorCameraController has no floorsParent assigned.");
+            //Debug.LogWarning("FloorCameraController has no floorsParent assigned.");
             return;
         }
 
@@ -173,7 +170,6 @@ public class FloorCameraController : MonoBehaviour
 
     public void SetCloseView()
     {
-        currentViewMode = ViewMode.Close;
         currentOffset = closeOffset;
         currentLookOffset = closeLookOffset;
 
@@ -186,7 +182,6 @@ public class FloorCameraController : MonoBehaviour
 
     public void SetFarView()
     {
-        currentViewMode = ViewMode.Far;
         currentOffset = farOffset;
         currentLookOffset = farLookOffset;
 
@@ -200,5 +195,86 @@ public class FloorCameraController : MonoBehaviour
     public int GetFloorCount()
     {
         return floors != null ? floors.Length : 0;
+    }
+
+    public void FocusNode(Node node, bool snap = true)
+    {
+        if (node == null)
+        {
+            //Debug.LogWarning("FocusNode failed: node is null.");
+            return;
+        }
+
+        if (floors == null || floors.Length == 0)
+            RebuildFloorList();
+
+        if (floors == null || floors.Length == 0)
+        {
+            //Debug.LogWarning("FocusNode failed: no floors available.");
+            return;
+        }
+
+        int bestFloorIndex = GetClosestFloorIndex(node.transform.position.y);
+
+        //Debug.Log(
+        //    $"FloorCameraController.FocusNode -> node='{node.name}' nodeY={node.transform.position.y} " +
+        //    $"bestFloorIndex={bestFloorIndex}"
+        //);
+
+        floorVisibilityController.currentFloor = bestFloorIndex;
+        floorVisibilityController.UpdateVisibility();
+
+        if (snap)
+            SnapToCurrentFloor();
+    }
+
+    public void FocusWorker(WorkerView worker, bool snap = true)
+    {
+        if (worker == null || worker.Agent == null)
+        {
+            //Debug.LogWarning("FocusWorker failed: worker or agent is null.");
+            return;
+        }
+
+        Node focusNode = worker.Agent.CurrentNode != null
+            ? worker.Agent.CurrentNode
+            : worker.Agent.AssignedWorkNode;
+
+        if (focusNode == null)
+        {
+            //Debug.LogWarning(
+            //    $"FocusWorker failed: no CurrentNode or AssignedWorkNode for agent {worker.Agent.AgentId}."
+            //);
+            return;
+        }
+
+        //Debug.Log(
+        //    $"FloorCameraController.FocusWorker -> agent={worker.Agent.AgentId} " +
+        //    $"currentNode={(worker.Agent.CurrentNode != null ? worker.Agent.CurrentNode.name : "None")} " +
+        //    $"workNode={(worker.Agent.AssignedWorkNode != null ? worker.Agent.AssignedWorkNode.name : "None")}"
+        //);
+
+        FocusNode(focusNode, snap);
+    }
+
+    private int GetClosestFloorIndex(float y)
+    {
+        int bestIndex = 0;
+        float bestDistance = float.MaxValue;
+
+        for (int i = 0; i < floors.Length; i++)
+        {
+            if (floors[i] == null)
+                continue;
+
+            float distance = Mathf.Abs(floors[i].position.y - y);
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestIndex = i;
+            }
+        }
+
+        return bestIndex;
     }
 }

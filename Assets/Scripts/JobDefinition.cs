@@ -23,4 +23,21 @@ public class JobDefinition
     public bool Lunch;
 
     public List<int> ShiftStartMinutes = new List<int>();
+
+    public bool IsShadowRole =>
+        !string.IsNullOrWhiteSpace(Job) &&
+        Job.Trim().EndsWith("Shadow", System.StringComparison.OrdinalIgnoreCase);
+
+    public int ShiftCount => ShiftStartMinutes != null ? ShiftStartMinutes.Count : 0;
+
+    public string GetShiftLabel(int shiftIndex)
+    {
+        return shiftIndex switch
+        {
+            0 => string.IsNullOrWhiteSpace(Shift1) ? "Shift 1" : Shift1,
+            1 => string.IsNullOrWhiteSpace(Shift2) ? "Shift 2" : Shift2,
+            2 => string.IsNullOrWhiteSpace(Shift3) ? "Shift 3" : Shift3,
+            _ => $"Shift {shiftIndex + 1}"
+        };
+    }
 }

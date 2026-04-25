@@ -5,17 +5,58 @@ public class WanderSystem : IWorldSystem
 {
     private readonly System.Random rng = new System.Random();
 
+    private const int WorkArrivalLeadMinutes = 30;
+
     public void Tick(WorldState world)
     {
-        var walkNodes = NodeRegistry.Instance != null ? NodeRegistry.Instance.walk : null;
+        var registry = NodeRegistry.Instance;
+        var walkNodes = registry != null ? registry.walk : null;
 
         if (walkNodes == null || walkNodes.Count == 0)
             return;
 
         foreach (var agent in world.Agents)
         {
-            if (!agent.IsAlive)
+            if (!agent.IsAlive || agent.CurrentNode == null)
                 continue;
+
+            //if (agent.BaseJob == "Maintenance Worker" || agent.Job == "Maintenance Worker")
+            //{
+                //Debug.Log(
+                //    $"Tick={world.Tick} Time={world.MinuteOfDay} " +
+                //    $"Agent={agent.AgentId} Job='{agent.Job}' BaseJob='{agent.BaseJob}' " +
+                //    $"Start={agent.AssignedShiftStartMinute} Length={agent.AssignedShiftLengthMinutes} " +
+                //    $"OnShift={SimulationManager.Instance.IsAgentOnShift(agent)}"
+                //);
+            //}
+
+            bool commutingToWork = ShouldCommuteToWork(world, agent);
+            bool onShift = IsOnShift(world, agent);
+            bool shouldPrioritizeWork = (commutingToWork || onShift) && agent.AssignedWorkNode != null;
+
+            bool hasPath = agent.CurrentPath != null &&
+                           agent.CurrentPath.Count > 0 &&
+                           agent.PathIndex < agent.CurrentPath.Count;
+
+            if (shouldPrioritizeWork)
+            {
+                agent.CurrentIntent = IntentType.Work;
+
+                if (agent.CurrentNode == agent.AssignedWorkNode)
+                {
+                    agent.TargetNode = agent.AssignedWorkNode;
+                    ClearPath(agent);
+                    agent.WaitTimer = RandomRange(1f, 3f);
+                    continue;
+                }
+
+                bool alreadyHeadingToWork = agent.TargetNode == agent.AssignedWorkNode;
+
+                if (!alreadyHeadingToWork || !hasPath)
+                    TryAssignPath(agent, agent.AssignedWorkNode, RandomRange(0.2f, 0.8f));
+
+                continue;
+            }
 
             if (agent.WaitTimer > 0f)
             {
@@ -23,21 +64,10 @@ public class WanderSystem : IWorldSystem
                 continue;
             }
 
-            bool hasPath = agent.CurrentPath != null &&
-                           agent.CurrentPath.Count > 0 &&
-                           agent.PathIndex < agent.CurrentPath.Count;
-
             if (hasPath)
                 continue;
 
-            if (agent.CurrentNode == null)
-                continue;
-
-            if (IsOnShift(world, agent) && agent.AssignedWorkNode != null)
-            {
-                TryAssignPath(agent, agent.AssignedWorkNode, RandomRange(0.2f, 0.8f));
-                continue;
-            }
+            agent.CurrentIntent = IntentType.Wander;
 
             Node target = PickRandomTarget(walkNodes, agent.CurrentNode);
             if (target == null)
@@ -47,19 +77,49 @@ public class WanderSystem : IWorldSystem
         }
     }
 
-    private bool IsOnShift(WorldState world, AgentRecord agent)
+    private bool ShouldCommuteToWork(WorldState world, AgentRecord agent)
     {
+        if (agent == null || agent.AssignedWorkNode == null)
+            return false;
+
         if (agent.AssignedShiftStartMinute < 0 || agent.AssignedShiftLengthMinutes <= 0)
             return false;
 
-        int start = agent.AssignedShiftStartMinute;
-        int end = (start + agent.AssignedShiftLengthMinutes) % 1440;
+        int commuteStart = Mod1440(agent.AssignedShiftStartMinute - WorkArrivalLeadMinutes);
         int now = world.MinuteOfDay;
+        int shiftStart = Mod1440(agent.AssignedShiftStartMinute);
+
+        if (commuteStart < shiftStart)
+            return now >= commuteStart && now < shiftStart;
+
+        return now >= commuteStart || now < shiftStart;
+    }
+
+    private bool IsOnShift(WorldState world, AgentRecord agent)
+    {
+        if (agent == null)
+            return false;
+
+        if (agent.AssignedShiftStartMinute < 0 || agent.AssignedShiftLengthMinutes <= 0)
+            return false;
+
+        int start = Mod1440(agent.AssignedShiftStartMinute);
+        int end = Mod1440(agent.AssignedShiftStartMinute + agent.AssignedShiftLengthMinutes);
+        int now = world.MinuteOfDay;
+
+        if (agent.AssignedShiftLengthMinutes >= 1440)
+            return true;
 
         if (start < end)
             return now >= start && now < end;
 
         return now >= start || now < end;
+    }
+
+    private int Mod1440(int value)
+    {
+        int result = value % 1440;
+        return result < 0 ? result + 1440 : result;
     }
 
     private void TryAssignPath(AgentRecord agent, Node target, float failWaitTime)
@@ -70,6 +130,7 @@ public class WanderSystem : IWorldSystem
         if (agent.CurrentNode == target)
         {
             agent.TargetNode = target;
+            ClearPath(agent);
             agent.WaitTimer = RandomRange(1f, 3f);
             return;
         }
@@ -84,6 +145,16 @@ public class WanderSystem : IWorldSystem
         agent.TargetNode = target;
         agent.CurrentPath = path;
         agent.PathIndex = 1;
+    }
+
+    private void ClearPath(AgentRecord agent)
+    {
+        if (agent.CurrentPath == null)
+            agent.CurrentPath = new List<Node>();
+        else
+            agent.CurrentPath.Clear();
+
+        agent.PathIndex = 0;
     }
 
     private Node PickRandomTarget(List<Node> walkNodes, Node current)

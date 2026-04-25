@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 public enum IntentType
@@ -33,6 +32,7 @@ public class AgentRecord
     public int HouseholdID;
     public string HouseholdRole;
     public string Job;
+    public string BaseJob;
     public int Age;
     public int Health;
     public int Hunger;
@@ -54,19 +54,16 @@ public class AgentRecord
     public Node AssignedWorkNode
     {
         get => assignedWorkNode;
-        set
-        {
-            if (assignedWorkNode != value)
-            {
-                //UnityEngine.Debug.Log($"Agent {AgentId} AssignedWorkNode: " +
-                //          $"{(assignedWorkNode ? assignedWorkNode.name : "null")} -> " +
-                //          $"{(value ? value.name : "null")}\n{System.Environment.StackTrace}");
-            }
-            assignedWorkNode = value;
-        }
+        set => assignedWorkNode = value;
     }
+
     public Node AssignedHomeNode;
+
+    public bool IsShadowWorker = false;
+    public int PreferredShiftIndex = -1;
+
     public int AssignedShiftIndex = -1;
+    public string AssignedShiftLabel;
     public int AssignedShiftStartMinute = -1;
     public int AssignedShiftLengthMinutes = 0;
 
@@ -98,7 +95,7 @@ public class RelationshipLink
 {
     public int OtherAgentId;
     public RelationshipType Type;
-    public float Strength;   // 0-1
+    public float Strength;
     public bool HouseholdTie;
     public int PartnerAgentID;
     public string ChildrenCount;

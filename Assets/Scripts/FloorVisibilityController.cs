@@ -46,7 +46,7 @@ public class FloorVisibilityController : MonoBehaviour
         if (floorsParent == null)
         {
             floors = new Transform[0];
-            Debug.LogWarning("FloorVisibilityController has no floorsParent assigned.");
+            //Debug.LogWarning("FloorVisibilityController has no floorsParent assigned.");
             return;
         }
 
